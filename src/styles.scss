@@ -1,1 +1,11 @@
-/* You can add global styles to this file, and also import other style files */
+::highlight(highlighter-1),
+::highlight(highlighter-2),
+::highlight(highlighter-3),
+::highlight(highlighter-4),
+::highlight(highlighter-5),
+::highlight(highlighter-6),
+::highlight(highlighter-7),
+::highlight(highlighter-8) {
+    color: blue;
+    text-decoration: green wavy underline;
+}

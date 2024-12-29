@@ -1,0 +1,6 @@
+.wrapper {
+    display: grid;
+    grid-auto-flow: row;
+    gap: 24px;
+    grid-template-columns: minmax(300px, 450px) minmax(300px, 450px);
+}
