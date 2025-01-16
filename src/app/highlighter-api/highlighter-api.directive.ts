@@ -63,7 +63,7 @@ export class HighlighterApiDirective implements AfterViewInit {
         const indices = [];
         let startPos = 0;
         while (startPos < text.length) {
-          const index = text.indexOf(searchText, startPos);
+          const index = text.toLocaleLowerCase().indexOf(searchText.toLocaleLowerCase(), startPos);
           if (index === -1) {
             break;
           }
