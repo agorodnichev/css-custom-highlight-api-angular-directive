@@ -2,7 +2,6 @@ import { Component, signal } from '@angular/core';
 import { HighlighterProvider } from '../../highlighter-api/highlighter-provider.service';
 import { HighlighterApiDirective } from '../../highlighter-api/highlighter-api.directive';
 import { FormControl, NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-search',
@@ -21,9 +20,12 @@ export class SearchComponent {
     this.ctrl = this.fb.control('');
 
     this.ctrl.valueChanges.pipe(
-      filter(value => value.length >= this.minNumberOfCharactersToTriggerSearch)
     ).subscribe(value => {
-      this.searchText.set(value);
-    })
+      if (value.length >= this.minNumberOfCharactersToTriggerSearch) {
+        this.searchText.set(value);
+      } else {
+        this.searchText.set('');
+      }
+    });
   }
 }
