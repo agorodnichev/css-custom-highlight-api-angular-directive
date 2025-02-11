@@ -27,7 +27,7 @@ type RegistryItem = { [key in HighlighterKeys]: HighlighterState };
  * to provided Range(s)
  */
 @Injectable({ providedIn: 'root' })
-export class HighlighterRegistryService {
+export class MultipleHighlightersRegistryService {
 
     private readonly highlighters: RegistryItem;
 

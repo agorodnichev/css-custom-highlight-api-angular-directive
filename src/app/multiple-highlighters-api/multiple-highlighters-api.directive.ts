@@ -1,15 +1,15 @@
 import { DOCUMENT } from '@angular/common';
 import { AfterViewInit, Directive, effect, ElementRef, Inject, Injector, input, runInInjectionContext } from '@angular/core';
-import { HighlighterProvider } from './highlighter-provider.service';
+import { MultipleHighlightersProvider } from './multiple-highlighters-provider.service';
 
 @Directive({
-  selector: '[appHighlighterApi]',
+  selector: '[appMultipleHighlightersApi]',
   standalone: true
 })
-export class HighlighterApiDirective implements AfterViewInit {
+export class MultipleHighlightersApiDirective implements AfterViewInit {
 
   readonly inputTextToHighlight = input.required<string>({
-    alias: 'appHighlighterApi',
+    alias: 'appMultipleHighlightersApi',
   });
 
   private currentRanges: Range[] | null = null;
@@ -20,7 +20,7 @@ export class HighlighterApiDirective implements AfterViewInit {
     private readonly el: ElementRef,
     @Inject(DOCUMENT) private readonly document: Document,
     private readonly injector: Injector,
-    private readonly highlighterProvider: HighlighterProvider
+    private readonly multipleHighlightersProvider: MultipleHighlightersProvider
   ) {
 
     this.treeWalker = this.document.createTreeWalker(
@@ -42,7 +42,7 @@ export class HighlighterApiDirective implements AfterViewInit {
       this.resetStateBeforeNewSearch();
 
       if (!inputTextToHighlight) {
-        this.highlighterProvider.highlighter.clear();
+        this.multipleHighlightersProvider.highlighter.clear();
         return;
       }
 
@@ -83,7 +83,7 @@ export class HighlighterApiDirective implements AfterViewInit {
 
   private addRangesToHighlighter(ranges: Range[]): void {
     for (const range of ranges) {
-      this.highlighterProvider.highlighter.add(range);
+      this.multipleHighlightersProvider.highlighter.add(range);
     }
   }
 
@@ -96,7 +96,7 @@ export class HighlighterApiDirective implements AfterViewInit {
 
   private resetCurrentRanges(): void {
     this.currentRanges?.forEach((range: Range) => {
-      this.highlighterProvider.highlighter.delete(range);
+      this.multipleHighlightersProvider.highlighter.delete(range);
     });
     this.currentRanges = null;
   }
