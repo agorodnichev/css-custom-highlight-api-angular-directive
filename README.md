@@ -6,7 +6,7 @@ There is a [CSS Custom Highlight API](https://developer.mozilla.org/en-US/docs/W
 
 ## Description
 
-This is an example of Angular Directive which adopts CSS Custom Highlight API.
+This is an example of Angular Directive(s) which adopts CSS Custom Highlight API.
 
 ## Development server
 

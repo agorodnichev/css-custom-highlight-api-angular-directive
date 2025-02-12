@@ -15,6 +15,7 @@ export class SearchSingleHighlighterComponent {
   readonly minNumberOfCharactersToTriggerSearch = 3;
   readonly ctrl: FormControl<string>;
   readonly searchText = signal('');
+
   constructor(private readonly fb: NonNullableFormBuilder) {
     this.ctrl = this.fb.control('');
 
