@@ -2,18 +2,28 @@ import { DOCUMENT } from '@angular/common';
 import { AfterViewInit, Directive, effect, ElementRef, Inject, Injector, input, runInInjectionContext, untracked } from '@angular/core';
 import { SingleHighlighterProvider } from './single-highlighter-provider.service';
 
+/**
+ * How to use:
+ *  1) In global styles file define styles like this:
+ *      ::highlight(highlighter-type-single) {
+ *          color: blue;
+ *          text-decoration: palevioletred wavy underline;
+ *      }
+ *  2) Then Directive can be used like this:
+ *     <p [appSingleHighlighterApi]="searchText()">lorem....<p>
+ */
 @Directive({
     selector: '[appSingleHighlighterApi]',
     standalone: true
 })
 export class SingleHighlighterApiDirective implements AfterViewInit {
-
+    // Input fields
     readonly inputTextToHighlight = input.required<string>({
         alias: 'appSingleHighlighterApi',
     });
 
+    // Other variables
     private readonly currentRanges: Range[] = [];
-
     private readonly treeWalker: TreeWalker;
 
     constructor(
@@ -22,7 +32,6 @@ export class SingleHighlighterApiDirective implements AfterViewInit {
         private readonly injector: Injector,
         private readonly singleHighlighterProvider: SingleHighlighterProvider,
     ) {
-
         this.treeWalker = this.document.createTreeWalker(
             this.el.nativeElement,
             NodeFilter.SHOW_TEXT

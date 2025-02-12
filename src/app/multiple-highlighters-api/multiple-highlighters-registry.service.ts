@@ -16,15 +16,15 @@ export enum HighlighterKeys {
     highlighter8 = 'highlighter-8',
 }
 
-type RegistryItem = { [key in HighlighterKeys]: HighlighterState };
+type RegistryItem = Record<HighlighterKeys, HighlighterState>;
 
 /**
- * "CSS Custom Highlight API" allows to highlight text nodes on the page
- * without modifiying DOM tree. 
- * Current service creates 8 "Highlight" objects which can be used
- * for highlighing text in unique way if there is a need. Every "Highlight"
+ * Service creates 8 "Highlight" objects. Every "Highlight"
  * object can define unique style and consume "Range" objects to apply CSS rules
- * to provided Range(s)
+ * to provided Range(s).
+ * Every instantiation of the consumer (Highlight Directive) of this service takes 
+ * next available Highlight object, so that every instance of Directive doesn't
+ * interfere with each other.
  */
 @Injectable({ providedIn: 'root' })
 export class MultipleHighlightersRegistryService {
@@ -36,7 +36,7 @@ export class MultipleHighlightersRegistryService {
         this.registerHighlighters(this.highlighters);
     }
 
-    // When consumer (component) is created it reserves 1 out of 8 Highlight objects.
+    // When consumer (Directive) is created it reserves 1 out of 8 Highlight objects.
     // So it can be used to highlight specified ranges with specififed styles.
     reserveAvailableHighlighter(): Highlight {
         if (!this.hasAvailableHighlighter()) {
@@ -48,7 +48,7 @@ export class MultipleHighlightersRegistryService {
         return nextAvailable.highlighter;
     }
 
-    // On consumer object destroy (i.e. ngOnDestroy on component)
+    // On consumer object destroy (i.e. ngOnDestroy on multiple-highlighters-provider.service.ts)
     // releases hihglighter by setting available to true.
     // It allows to reuse highlighter by other consumers.
     releaseHighlighter(highlighter: Highlight): void {

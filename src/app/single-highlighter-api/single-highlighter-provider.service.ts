@@ -1,5 +1,10 @@
 import { Injectable } from "@angular/core";
 
+/**
+ * Service helps Directive to clear ranges registered
+ * by instance of the Directive. Also it registers
+ * selector for the Highlight object.
+ */
 @Injectable({
     providedIn: 'root'
 })

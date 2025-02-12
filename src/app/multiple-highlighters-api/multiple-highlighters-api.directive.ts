@@ -1,13 +1,33 @@
 import { DOCUMENT } from '@angular/common';
-import { AfterViewInit, Directive, effect, ElementRef, Inject, Injector, input, runInInjectionContext } from '@angular/core';
+import { AfterViewInit, Directive, effect, ElementRef, Inject, Injector, input, runInInjectionContext, untracked } from '@angular/core';
 import { MultipleHighlightersProvider } from './multiple-highlighters-provider.service';
 
+/**
+ * How to use:
+ *   1) Before applying Directive provide available Highligh object
+ *      to the part of the component tree where you need search/hightlight
+ *      functionality to be working by setting "providers" on a component
+ *      level with this service "MultipleHighlightersProvider".
+ *   2) In global styles file define styles like this:
+ *        ::highlight(highlighter-1),
+ *        ::highlight(highlighter-2),
+ *        ::highlight(highlighter-3),
+ *        ::highlight(highlighter-4),
+ *        ::highlight(highlighter-5),
+ *        ::highlight(highlighter-6),
+ *        ::highlight(highlighter-7),
+ *        ::highlight(highlighter-8) {
+ *          color: blue;
+ *          text-decoration: green wavy underline;
+ *        }
+ *   3) Then Directive can be used like this:
+ *      <p [appMultipleHighlightersApi]="searchText()">lorem....<p>
+ */
 @Directive({
   selector: '[appMultipleHighlightersApi]',
   standalone: true
 })
 export class MultipleHighlightersApiDirective implements AfterViewInit {
-
   readonly inputTextToHighlight = input.required<string>({
     alias: 'appMultipleHighlightersApi',
   });
@@ -38,22 +58,18 @@ export class MultipleHighlightersApiDirective implements AfterViewInit {
   private trackInputSearchTextChanges(): void {
     effect(() => {
       const inputTextToHighlight = this.inputTextToHighlight();
-
-      this.resetStateBeforeNewSearch();
-
-      if (!inputTextToHighlight) {
-        this.multipleHighlightersProvider.highlighter.clear();
-        return;
-      }
-
-      const allTextNodes: Node[] = this.collectTextNodes();
-
-      this.currentRanges = this.getRangesToHighlight(allTextNodes, inputTextToHighlight);
-
-      this.addRangesToHighlighter(this.currentRanges);
+      untracked(() => {
+        this.resetStateBeforeNewSearch();
+        if (!inputTextToHighlight) {
+          this.multipleHighlightersProvider.highlighter.clear();
+          return;
+        }
+        const allTextNodes: Node[] = this.collectTextNodes();
+        this.currentRanges = this.getRangesToHighlight(allTextNodes, inputTextToHighlight);
+        this.addRangesToHighlighter(this.currentRanges);
+      });
     })
   }
-
 
   private getRangesToHighlight(textNodes: Node[], searchText: string): Range[] {
     const ranges = textNodes.map((el: Node) => {
@@ -115,5 +131,4 @@ export class MultipleHighlightersApiDirective implements AfterViewInit {
 
     return allTextNodes
   }
-
 }

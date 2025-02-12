@@ -3,9 +3,12 @@ import { MultipleHighlightersRegistryService } from "./multiple-highlighters-reg
 
 
 /**
- * Servers takes first available highlighter from the Registry.
+ * Service takes first available Highlight object from the Registry.
  * So that you can have on a single page multiple search 
- * and highlight functionalities isolated from each other.
+ * with highlight functionalities isolated from each other.
+ * Pay attention that it is not provided in root, so that
+ * you decide what part of the component hierarchy should be
+ * served by single Highlight object.
  */
 @Injectable()
 export class MultipleHighlightersProvider implements OnDestroy {
@@ -18,5 +21,4 @@ export class MultipleHighlightersProvider implements OnDestroy {
         this.highlighter.clear();
         this.multipleHighlightersRegistryService.releaseHighlighter(this.highlighter);
     }
-
 }
