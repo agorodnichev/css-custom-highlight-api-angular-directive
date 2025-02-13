@@ -10,5 +10,4 @@ import { SearchSingleHighlighterComponent } from './components/search-single-hig
   styleUrl: './app.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AppComponent {
-}
+export class AppComponent {}

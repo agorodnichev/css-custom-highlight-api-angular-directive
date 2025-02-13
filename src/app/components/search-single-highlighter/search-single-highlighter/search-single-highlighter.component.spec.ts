@@ -8,9 +8,8 @@ describe('SearchSingleHighlighterComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SearchSingleHighlighterComponent]
-    })
-    .compileComponents();
+      imports: [SearchSingleHighlighterComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(SearchSingleHighlighterComponent);
     component = fixture.componentInstance;

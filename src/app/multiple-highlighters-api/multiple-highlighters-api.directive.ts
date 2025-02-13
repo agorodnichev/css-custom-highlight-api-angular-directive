@@ -1,5 +1,15 @@
 import { DOCUMENT } from '@angular/common';
-import { AfterViewInit, Directive, effect, ElementRef, Inject, Injector, input, runInInjectionContext, untracked } from '@angular/core';
+import {
+  AfterViewInit,
+  Directive,
+  effect,
+  ElementRef,
+  Inject,
+  Injector,
+  input,
+  runInInjectionContext,
+  untracked,
+} from '@angular/core';
 import { MultipleHighlightersProvider } from './multiple-highlighters-provider.service';
 
 /**
@@ -25,7 +35,7 @@ import { MultipleHighlightersProvider } from './multiple-highlighters-provider.s
  */
 @Directive({
   selector: '[appMultipleHighlightersApi]',
-  standalone: true
+  standalone: true,
 })
 export class MultipleHighlightersApiDirective implements AfterViewInit {
   readonly inputTextToHighlight = input.required<string>({
@@ -40,19 +50,15 @@ export class MultipleHighlightersApiDirective implements AfterViewInit {
     private readonly el: ElementRef,
     @Inject(DOCUMENT) private readonly document: Document,
     private readonly injector: Injector,
-    private readonly multipleHighlightersProvider: MultipleHighlightersProvider
+    private readonly multipleHighlightersProvider: MultipleHighlightersProvider,
   ) {
-
-    this.treeWalker = this.document.createTreeWalker(
-      this.el.nativeElement,
-      NodeFilter.SHOW_TEXT
-    )
+    this.treeWalker = this.document.createTreeWalker(this.el.nativeElement, NodeFilter.SHOW_TEXT);
   }
 
   ngAfterViewInit() {
     runInInjectionContext(this.injector, () => {
       this.trackInputSearchTextChanges();
-    })
+    });
   }
 
   private trackInputSearchTextChanges(): void {
@@ -68,13 +74,14 @@ export class MultipleHighlightersApiDirective implements AfterViewInit {
         this.currentRanges = this.getRangesToHighlight(allTextNodes, inputTextToHighlight);
         this.addRangesToHighlighter(this.currentRanges);
       });
-    })
+    });
   }
 
   private getRangesToHighlight(textNodes: Node[], searchText: string): Range[] {
-    const ranges = textNodes.map((el: Node) => {
-      return { el, text: el.textContent!.toLowerCase()! }
-    })
+    const ranges = textNodes
+      .map((el: Node) => {
+        return { el, text: el.textContent!.toLowerCase()! };
+      })
       .map(({ text, el }) => {
         const indices = [];
         let startPos = 0;
@@ -92,8 +99,8 @@ export class MultipleHighlightersApiDirective implements AfterViewInit {
           range.setStart(el, index);
           range.setEnd(el, index + searchText.length);
           return range;
-        })
-      })
+        });
+      });
     return ranges.flat();
   }
 
@@ -129,6 +136,6 @@ export class MultipleHighlightersApiDirective implements AfterViewInit {
       currentNode = this.treeWalker.nextNode();
     }
 
-    return allTextNodes
+    return allTextNodes;
   }
 }

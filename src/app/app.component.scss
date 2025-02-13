@@ -1,16 +1,16 @@
 .group {
-    display: grid;
-    grid-auto-flow: row;
-    gap: 24px;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 450px));
-    outline: 1px dashed darkgray;
-    padding: 24px;
+  display: grid;
+  grid-auto-flow: row;
+  gap: 24px;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 450px));
+  outline: 1px dashed darkgray;
+  padding: 24px;
 }
 
 .group-1 {
-    background-color: rgb(255, 255, 133);
+  background-color: rgb(255, 255, 133);
 }
 
 .group-2 {
-    background-color: rgb(188, 255, 182);
+  background-color: rgb(188, 255, 182);
 }

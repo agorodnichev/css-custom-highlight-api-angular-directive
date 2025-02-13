@@ -21,9 +21,7 @@ export class SearchMultipleHighlightersComponent {
   constructor(private readonly fb: NonNullableFormBuilder) {
     this.ctrl = this.fb.control('');
 
-    this.ctrl.valueChanges.pipe(
-      takeUntilDestroyed(),
-    ).subscribe(value => {
+    this.ctrl.valueChanges.pipe(takeUntilDestroyed()).subscribe((value) => {
       if (value.length >= this.minNumberOfCharactersToTriggerSearch) {
         this.searchText.set(value);
       } else {
